@@ -17,6 +17,13 @@ body{
     display: flex;
 }
 
+.textos{
+    margin: 1px 20px;
+}
+.contain-switches{
+    margin: 30px 190px;
+}
+
 .switch {
     position: relative;
     display: inline-block;
@@ -53,12 +60,15 @@ body{
     -webkit-transition: .4s;
     transition: .4s;
   }
-  
+/*   
   input:checked + .slider {
     background-color: #2196F3;
-  }
+  } */
   
   input:focus + .slider {
+    box-shadow: 0 0 1px #2196F3;
+  }
+.slider-true{
     box-shadow: 0 0 1px #2196F3;
   }
   

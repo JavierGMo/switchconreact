@@ -12,160 +12,207 @@
 <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
 <script type="text/babel">
-	const ToDo = ({text, movefinal})=>{
-	const move = () => movefinal(text);
-		return (
-		<li className="todo" onClick={move}>
-			{text}
-		</li>
-		);
-	};//ToDo: li para mostrar
+	
 
-	const ToDos = ({})=>{
-		const [text, setText] = React.useState('');
-		const [todos, updateTodos] = React.useState([]);
-		
-		const value = (e) => setText(e.target.value);//Valor para el input
+	
 
-		const addTodo = (e)=>{
 
-			updateTodos((todos)=>{
-				if(text === '') return todos;
-				const copyTodos = [...todos];
-				copyTodos.push(text);
-				setText("");
-				return copyTodos;
-			});//Agregar valores al array
-		};
-		return (
-			<div className="container">
-				<input type="text" className="todoinpt" value={text} onChange={value}/>
-				<button className="btnadd" onClick={addTodo}>Agregar</button>
-				<ol className="todos">
-					{todos.map((todo, index)=>{
-						const moveFinalList = (text) => updateTodos(
-							(oldTodos) => {
-								const res = oldTodos.filter((todo) => todo !== text);
-								res.push(text)
-								return res;
-							}
-						);
-						return <ToDo key={index} text={todo} movefinal={moveFinalList}/>;//Elemento ToDo
-					})}
-				</ol>
-			</div>
-		);//Regresa el contenido y la funcionalidad
-	};//Todos
-
-	const SwitchButtonOld = ({nameSwitch, position, stateSwitchs})=>{
-		const [change, setChange] = React.useState(true);
-		
-
-		const value = (e)=>{
-			const value = e.target.value;
-			console.log(e);
-			// console.log(`Valor del checkbox ${change}`);
-			
-			setChange(()=>!change);
-			stateSwitchs(change, position);
-			
-		};
-		return (
-			<div className="flex">
-				<input type="checkbox" value={change} onChange={value} />
-				<div>{nameSwitch}</div>
-				
-			</div>
-		);
-	};
-
-	const SwitchButton = ({nameSwitch, position, stateSwitchs})=>{
-		const [change, setChange] = React.useState(true);
-		
-
-		const value = (e)=>{
-			const value = e.target.value;
-			// console.log(e);
-			// console.log(`Valor del checkbox ${change}`);
-			
-			setChange(()=>!change);
-			stateSwitchs(change, position);
-			
-		};
-		return (
-			<div className="flex">
-				<label className="switch">
-					<input type="checkbox" value={change} onChange={value} />
-					<span className="slider round"></span>
-				</label>
-				<div>{nameSwitch}</div>
-				
-			</div>
-		);
-	};
-
-	const MainSwitchs = ({}) => {
-
-		const [options, setOptions] = React.useState({
-			'switchuno' : false,
-			'switchdos' : false,
-			'switchtres' : false,
-		});
-		const [first, setFirst] = React.useState({
+	const SwitchChido = ({})=>{
+		const [whoFirst, setWhoFirst] = React.useState({
 			'pressfirst' : false,
-			'presssecond' : false,
-			'pressthird' : false,
-			'whowas' : '',
-			'allcheck': false
-
+			'whofirst' : 0,
+			
 		});
+		const [first, setFirst] = React.useState(false);
+		const [second, setSecond] = React.useState(false);
+		const [third, setThird] = React.useState(false);
+		
+		
 
-		const [clase, setClase] = React.useState();
-		// console.log(options);
-
-		const controlOptions = (change, position)=>{
-			const auxOptions = {...options};
-			const auxFirst = {...first};
-			// console.log(`Opcion cambiaada : ${auxOptions[position]}`);
-			auxOptions[position] = change;
-			setOptions(auxOptions);
-			if(!auxFirst['pressfirst']){
-				// console.log('Ya fue presionado');
-				auxFirst['pressfirst'] = true;
-				auxFirst['whowas'] = position;
-				setFirst(auxFirst);
-			}
-			if(auxOptions['switchuno'] && auxOptions['switchdos'] && auxOptions['switchtres']){
-				console.log('Todos se han presionado con exito');
-			}
+		const checksVacios = ()=>{
+			
 		};
-
-
-		return (
+		
+		
+		const html =  (
 			<div>
-				<SwitchButton nameSwitch={"Money"} position={'switchuno'} stateSwitchs={controlOptions}/>
-				<SwitchButton nameSwitch={"Time"} position={'switchdos'} stateSwitchs={controlOptions} />
-				<SwitchButton nameSwitch={"Energy"} position={'switchtres'} stateSwitchs={controlOptions} />
 				<div>
-					{options['switchuno'] && options['switchdos'] && options['switchtres']?<div>Se cumplio</div>:<div>No se cumplio</div>}
+					<h1 style={{
+						color : '#8bcdcd'
+					}}>Switches Chidos con React XD</h1>
 				</div>
-				<br />
-				<br />
-				<div>
+				<div className="flex contain-switches">
 					<label className="switch">
-						<input type="checkbox" />
-						<span className="slider round"></span>
+						<input
+							type="checkbox"
+							value={first}
+							onChange={e=>setFirst(()=>{
+								// console.log(`primero : ${!first}, segundo : ${second}, tercero ${third}`);
+								const auxWhoFirst = {...whoFirst};
+								// console.log(`Primero:  ${!first} ----- `);
+								if(!auxWhoFirst['pressfirst'] && !first){
+									auxWhoFirst['pressfirst'] = true;
+									auxWhoFirst['whofirst'] = 1;
+									setWhoFirst(auxWhoFirst);
+								}
+								console.log(`Condicion : ${!first && second && third}`);
+								if(!first!==false && second!==false && third!==false){//Saber si los tres no estan vacios
+									// const auxWhoFirst = {...whoFirst};
+									
+									
+									switch(auxWhoFirst['whofirst']){
+										case 1:
+											setSecond(!second);
+											break;
+										case 2:
+											setSecond(!second);
+											break;
+										case 3:
+										setThird(!third);
+											break;
+										default:
+											break;
+											
+									}
+								}else{
+									console.log('Entre a los no swith');
+									if(first && auxWhoFirst['pressfirst']){
+										auxWhoFirst['pressfirst'] = false;
+										auxWhoFirst['whofirst'] = 0;
+										setWhoFirst(auxWhoFirst);
+									}
+									
+								}
+								return !first;
+							})}
+							checked={first} />
+						<span
+							style={{
+								backgroundColor : first?'#9d0191':'',
+							}}
+						className="slider round"></span>
 					</label>
+					<div className="textos">Bueno</div>
 				</div>
-			</div>
-		);
-	};
 
+
+				<div className="flex contain-switches">
+					<label className="switch">
+						<input
+							type="checkbox"
+							value={second}
+							onChange={e=>setSecond(()=>{
+								// console.log(`primero : ${first}, segundo : ${second}, tercero ${third}`);
+								const auxWhoFirst = {...whoFirst};
+								// console.log(`Segundo:  ${!second} ----- `);
+								if(!auxWhoFirst['pressfirst'] && !second){
+									auxWhoFirst['pressfirst'] = true;
+									auxWhoFirst['whofirst'] = 2;
+									setWhoFirst(auxWhoFirst);
+								}
+								if(first!==false && !second!==false && third!==false){
+									// const auxWhoFirst = {...whoFirst};
+									switch(auxWhoFirst['whofirst']){
+										case 1:
+											setThird(!third);
+											break;
+										case 2:
+											setFirst(!first);
+											break;
+										case 3:
+											setFirst(!first);
+											break;
+										default:
+											break;
+											
+									}
+									
+								}else{
+									
+									if(second&&auxWhoFirst['pressfirst']){
+										auxWhoFirst['pressfirst'] = false;
+										auxWhoFirst['whofirst'] = 0;
+										setWhoFirst(auxWhoFirst);
+									}
+								}
+								return !second;
+							})}
+							checked={second} 
+						/>
+						<span
+							style={{
+								backgroundColor : second?'#fd3a69':'',
+							}}
+						className="slider round"></span>
+					</label>
+					<div className="textos">Bonito</div>
+				</div>
+
+
+				<div className="flex contain-switches">
+					<label className="switch">
+						<input
+							type="checkbox"
+							value={third}
+							onChange={e=>setThird(()=>{
+								// console.log(`primero : ${first}, segundo : ${second}, tercero ${third}`);
+								const auxWhoFirst = {...whoFirst};
+								// console.log(`Tercerp:  ${!third} ----- `);
+								if(!auxWhoFirst['pressfirst'] && !third){
+									auxWhoFirst['pressfirst'] = true;
+									auxWhoFirst['whofirst'] = 3;
+									setWhoFirst(auxWhoFirst);
+
+								}
+								if(first!==false && second!==false && !third!==false){
+									switch(auxWhoFirst['whofirst']){
+										case 1:
+											setFirst(!first);
+											break;
+										case 2:
+											setSecond(!second);
+											break;
+										case 3:
+											setSecond(!second);
+											break;
+										default:
+											break;
+											
+									}	
+									
+								}else{
+									
+									if(third&&auxWhoFirst['pressfirst']){
+										auxWhoFirst['pressfirst'] = false;
+										auxWhoFirst['whofirst'] = 0;
+										setWhoFirst(auxWhoFirst);
+									}
+									
+								}
+								return !third;
+							})}
+							checked={third}
+						/>
+						<span
+							style={{
+								backgroundColor : third?'#fecd1a':'',
+							}}
+						className="slider round"></span>
+					</label>
+					<div className="textos">Barato</div>
+				</div>
+
+			</div>
+			
+		);
+
+		return html;
+	};
 	
 
 	const App = ()=>(
 		<main>
-			<MainSwitchs />
+			<SwitchChido />
 		</main>
 	);
 
