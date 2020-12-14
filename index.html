@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Title</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+</div>
+
+<script src="https://unpkg.com/react@17/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.min.js"></script>
+<script type="text/babel">
+	const ToDo = ({text, movefinal})=>{
+	const move = () => movefinal(text);
+		return (
+		<li className="todo" onClick={move}>
+			{text}
+		</li>
+		);
+	};//ToDo: li para mostrar
+
+	const ToDos = ({})=>{
+		const [text, setText] = React.useState('');
+		const [todos, updateTodos] = React.useState([]);
+		
+		const value = (e) => setText(e.target.value);//Valor para el input
+
+		const addTodo = (e)=>{
+
+			updateTodos((todos)=>{
+				if(text === '') return todos;
+				const copyTodos = [...todos];
+				copyTodos.push(text);
+				setText("");
+				return copyTodos;
+			});//Agregar valores al array
+		};
+		return (
+			<div className="container">
+				<input type="text" className="todoinpt" value={text} onChange={value}/>
+				<button className="btnadd" onClick={addTodo}>Agregar</button>
+				<ol className="todos">
+					{todos.map((todo, index)=>{
+						const moveFinalList = (text) => updateTodos(
+							(oldTodos) => {
+								const res = oldTodos.filter((todo) => todo !== text);
+								res.push(text)
+								return res;
+							}
+						);
+						return <ToDo key={index} text={todo} movefinal={moveFinalList}/>;//Elemento ToDo
+					})}
+				</ol>
+			</div>
+		);//Regresa el contenido y la funcionalidad
+	};//Todos
+
+	const SwitchButtonOld = ({nameSwitch, position, stateSwitchs})=>{
+		const [change, setChange] = React.useState(true);
+		
+
+		const value = (e)=>{
+			const value = e.target.value;
+			console.log(e);
+			// console.log(`Valor del checkbox ${change}`);
+			
+			setChange(()=>!change);
+			stateSwitchs(change, position);
+			
+		};
+		return (
+			<div className="flex">
+				<input type="checkbox" value={change} onChange={value} />
+				<div>{nameSwitch}</div>
+				
+			</div>
+		);
+	};
+
+	const SwitchButton = ({nameSwitch, position, stateSwitchs})=>{
+		const [change, setChange] = React.useState(true);
+		
+
+		const value = (e)=>{
+			const value = e.target.value;
+			// console.log(e);
+			// console.log(`Valor del checkbox ${change}`);
+			
+			setChange(()=>!change);
+			stateSwitchs(change, position);
+			
+		};
+		return (
+			<div className="flex">
+				<label className="switch">
+					<input type="checkbox" value={change} onChange={value} />
+					<span className="slider round"></span>
+				</label>
+				<div>{nameSwitch}</div>
+				
+			</div>
+		);
+	};
+
+	const MainSwitchs = ({}) => {
+
+		const [options, setOptions] = React.useState({
+			'switchuno' : false,
+			'switchdos' : false,
+			'switchtres' : false,
+		});
+		const [first, setFirst] = React.useState({
+			'pressfirst' : false,
+			'presssecond' : false,
+			'pressthird' : false,
+			'whowas' : '',
+			'allcheck': false
+
+		});
+
+		const [clase, setClase] = React.useState();
+		// console.log(options);
+
+		const controlOptions = (change, position)=>{
+			const auxOptions = {...options};
+			const auxFirst = {...first};
+			// console.log(`Opcion cambiaada : ${auxOptions[position]}`);
+			auxOptions[position] = change;
+			setOptions(auxOptions);
+			if(!auxFirst['pressfirst']){
+				// console.log('Ya fue presionado');
+				auxFirst['pressfirst'] = true;
+				auxFirst['whowas'] = position;
+				setFirst(auxFirst);
+			}
+			if(auxOptions['switchuno'] && auxOptions['switchdos'] && auxOptions['switchtres']){
+				console.log('Todos se han presionado con exito');
+			}
+		};
+
+
+		return (
+			<div>
+				<SwitchButton nameSwitch={"Money"} position={'switchuno'} stateSwitchs={controlOptions}/>
+				<SwitchButton nameSwitch={"Time"} position={'switchdos'} stateSwitchs={controlOptions} />
+				<SwitchButton nameSwitch={"Energy"} position={'switchtres'} stateSwitchs={controlOptions} />
+				<div>
+					{options['switchuno'] && options['switchdos'] && options['switchtres']?<div>Se cumplio</div>:<div>No se cumplio</div>}
+				</div>
+				<br />
+				<br />
+				<div>
+					<label className="switch">
+						<input type="checkbox" />
+						<span className="slider round"></span>
+					</label>
+				</div>
+			</div>
+		);
+	};
+
+	
+
+	const App = ()=>(
+		<main>
+			<MainSwitchs />
+		</main>
+	);
+
+	ReactDOM.render(<App />, document.getElementById('app'));
+</script>
+</body>
+</html>
